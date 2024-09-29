@@ -1,0 +1,15 @@
+{
+    "name": "rawlplug/task",
+    "autoload": {
+        "psr-4": {
+            "Rawlplug\\Task\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jakub Kapłonek",
+            "email": "jakub.kaplonek@rawlplug.com"
+        }
+    ],
+    "require": {}
+}
