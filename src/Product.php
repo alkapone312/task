@@ -2,6 +2,8 @@
 
 namespace Rawlplug\Task;
 
+use Exception;
+
 class Product {
     protected int $id;
 
@@ -11,16 +13,20 @@ class Product {
 
     protected float $price;
 
+    protected array $attributes;
+
     public function __construct(
         int $id,
         string $name,
         string $description,
-        float $price
+        float $price,
+        array $attributes
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
+        $this->attributes = $attributes;
     }
 
     public function getId(): int {
@@ -39,15 +45,30 @@ class Product {
         return $this->price;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
+    public function getAttributes(): array {
+        return $this->attributes;
     }
 
-    public function setDescription(string $description): void {
-        $this->description = $description;
+    public function hasAttribute(string $name): bool {
+        foreach($this->attributes as $attribute) {
+            if($attribute->getName() === $name) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
-    public function setPrice(float $price): void {
-        $this->price = $price;
+    /**
+     * @throws Exception
+     */
+    public function getAttribute(string $name): ProductAttribute {
+        foreach($this->attributes as $attribute) {
+            if($attribute->getName() === $name) {
+                return $attribute;
+            }
+        }
+
+        throw new Exception("Attribute not found!");
     }
 }

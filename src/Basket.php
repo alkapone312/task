@@ -7,6 +7,9 @@ class Basket {
     /** @var Product[] */
     private array $productsInBasket = [];
 
+    /** @var CheckoutCalculating[] */
+    private array $checkoutCalculators = [];
+
     /**
      * @return Product[]
      */
@@ -24,6 +27,10 @@ class Basket {
         $this->productsInBasket[] = $product;
     }
 
+    public function addCheckoutCalculator(CheckoutCalculating $calculator) {
+        $this->checkoutCalculators[] = $calculator;
+    }
+
     /**
      * Returns current value of a basket
      *
@@ -31,14 +38,12 @@ class Basket {
      */
     public function checkout(): float {
         $basketValue = 0;
-        foreach ($this->productsInBasket as $product) {
-            if ($product instanceof ProductWithPromotion || $product instanceof ProductWithTypeAndPromotion) {
-                $basketValue += $product->getPriceAfterDiscount();
-            } elseif ($product instanceof ProductWithTypes) {
-                $basketValue += $product->getTypePrice();
-            } else {
-                $basketValue += $product->getPrice();
+        foreach($this->productsInBasket as $product) {
+            $actualPrice = $product->getPrice();
+            foreach ($this->checkoutCalculators as $calculator) {
+                $actualPrice = $calculator->computeCheckout($product, $actualPrice);
             }
+            $basketValue += $actualPrice;
         }
 
         return $basketValue;
