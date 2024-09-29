@@ -43,8 +43,10 @@ class Basket {
     public function checkout(): float {
         $basketValue = 0;
         foreach($this->productsInBasket as $product) {
-            if($product instanceof ProductWithPromotion) {
+            if($product instanceof ProductWithPromotion || $product instanceof ProductWithTypeAndPromotion) {
                 $basketValue += $product->getPriceAfterDiscount();
+            } else if ($product instanceof ProductWithTypes) {
+                $basketValue += $product->getTypePrice();
             } else {
                 $basketValue += $product->getPrice();
             }
