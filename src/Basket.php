@@ -16,7 +16,8 @@ class Basket {
 
     /**
      * Adds product to basket
-     * 
+     *
+     * @param Product $product
      * @return void
      */
     public function addProduct(Product $product): void {
@@ -26,7 +27,8 @@ class Basket {
 
     /**
      * Removes single product with specific id from basket
-     * 
+     *
+     * @param Product $product
      * @return void
      */
     public function removeProduct(Product $product): void {
@@ -41,7 +43,11 @@ class Basket {
     public function checkout(): float {
         $basketValue = 0;
         foreach($this->productsInBasket as $product) {
-            $basketValue += $product->getPrice();
+            if($product instanceof ProductWithPromotion) {
+                $basketValue += $product->getPriceAfterDiscount();
+            } else {
+                $basketValue += $product->getPrice();
+            }
         }
 
         return $basketValue;
