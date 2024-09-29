@@ -24,28 +24,17 @@ class Basket {
         $this->productsInBasket[] = $product;
     }
 
-
-    /**
-     * Removes single product with specific id from basket
-     *
-     * @param Product $product
-     * @return void
-     */
-    public function removeProduct(Product $product): void {
-        
-    }
-
     /**
      * Returns current value of a basket
-     * 
+     *
      * @return float
      */
     public function checkout(): float {
         $basketValue = 0;
-        foreach($this->productsInBasket as $product) {
-            if($product instanceof ProductWithPromotion || $product instanceof ProductWithTypeAndPromotion) {
+        foreach ($this->productsInBasket as $product) {
+            if ($product instanceof ProductWithPromotion || $product instanceof ProductWithTypeAndPromotion) {
                 $basketValue += $product->getPriceAfterDiscount();
-            } else if ($product instanceof ProductWithTypes) {
+            } elseif ($product instanceof ProductWithTypes) {
                 $basketValue += $product->getTypePrice();
             } else {
                 $basketValue += $product->getPrice();

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Rawlplug\Task;
 
@@ -23,7 +23,7 @@ class ProductWithTypes extends Product {
     ) {
         parent::__construct($id, $name, $description, $price);
         $this->types = $types;
-        if(count($this->types) < 2) {
+        if (count($this->types) < 2) {
             throw new Exception("Product should have at least 2 types");
         }
         $this->currentType = $types[0];
@@ -41,7 +41,7 @@ class ProductWithTypes extends Product {
      * @throws Exception
      */
     public function setType(ProductType $type) {
-        if(!in_array($type, $this->types)) {
+        if (!in_array($type, $this->types)) {
             throw new Exception("Product type does not exist");
         }
 
